@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
 import axios from "axios";
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = () => {
   const [product, setProducts] = useState({});
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      const { data } = await axios.get(`/api/products/${id}`);
 
       setProducts(data);
     };
