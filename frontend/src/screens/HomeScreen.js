@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Product from "../components/Product";
-import products from "../products";
+import axios from "axios";
 
 const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("/api/products");
+
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 space-x-8">
       <h1 className="grid items-center justify-center  py-4 text-lg">
