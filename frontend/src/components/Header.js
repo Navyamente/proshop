@@ -1,24 +1,26 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <header>
       <div className="flex py-6 text-white bg-gray-700">
-        <a href="/">
+        <Link to="/">
           <i className="flex ml-60">PROSHOP</i>
-        </a>
-        <ul className="flex ml-auto  px-6 space-x-4 text-xs items-center justify-center text-gray-400">
+        </Link>
+        <div className="flex ml-auto  px-6 space-x-4 text-xs items-center justify-center text-gray-400">
           <li className="hover:text-gray-200">
-            <a href="/cart">
+            <Link to="/cart">
               <i className="fas fa-shopping-cart"></i> CART
-            </a>
+            </Link>
           </li>
+
           <li className="hover:text-gray-200">
-            <a href="/sign in">
+            <Link to="/login">
               <i className="fas fa-user"></i> SIGN IN
-            </a>
+            </Link>
           </li>
-        </ul>
+        </div>
       </div>
     </header>
   );
