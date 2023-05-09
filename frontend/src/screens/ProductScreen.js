@@ -1,61 +1,83 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Rating from "../components/Rating";
-import axios from "axios";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import { listProductDetails } from "../actions/productActions";
 
 const ProductScreen = () => {
-  const [product, setProducts] = useState({});
+  const [qty, setQty] = useState(1);
+  const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
+  const productDetails = useSelector((state) => state.productDetails);
+  const { loading, error, product } = productDetails;
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await axios.get(`/api/products/${id}`);
+    dispatch(listProductDetails(id));
+  }, [dispatch, id]);
 
-      setProducts(data);
-    };
+  console.log(id);
+  const addToCartHandler = () => {
+    navigate(`/cart/${id}?qty=${qty}`);
+  };
 
-    fetchProduct();
-  }, []);
   return (
-    <div>
-      <Link className="btn bg-gray-600 my-3" to="/">
+    <div className="flex md:w-auto space-x-2 space-y-2 items-center justify-center">
+      <Link className="text-gray-700 bg-slate-300 hover:bg-slate-400 " to="/">
         Go Back
       </Link>
-      <div className="grid md:grid-cols-6  py-3">
-        <img src={product.image} alt={product.name} fluid />
-      </div>
-      <div>
-        <h2 className="md:grid-cols-3">{product.name}</h2>
-        <div>
-          <Rating
-            value={product.rating}
-            text={`${product.numReviews} reviews`}
-          />
-          <h1>Price: ${product.price}</h1>
-          <p>Description: {product.description}</p>
-        </div>
-      </div>
-      <div className="flex md:w-1/3 flex-col ">
-        <p>Price:</p>
-        <h1 className="font-semibold">${product.price}</h1>
-      </div>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <div className="flex flex-row space-x-2 space-y-4 ">
+          <img src={product.image} alt={product.image} />
+          <div className="divide-y-2 w-1/2">
+            <p className="space-x-2 space-y-3 font-semibold">{product.name}</p>
 
-      <div className="flex md:w-1/3 flex-col ">
-        <p>Status:</p>
-        <h1 className="font-semibold">
-          {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
-        </h1>
-      </div>
-      <div>
-        <button
-          className="bg-black text-white py-2 "
-          type="button"
-          disabled={product.countInStock === 0}
-        >
-          ADD TO CART
-        </button>
-      </div>
+            <Rating
+              value={product.rating}
+              text={`${product.numReviews} reviews`}
+            />
+            <h1 className="lg:w-1/2">Price: ${product.price}</h1>
+            <p className="w-1/2">Description: {product.description}</p>
+          </div>
+          <div className="divide-y-2 w-1/2">
+            <h1 className="font-semibold">Price: ${product.price}</h1>
+            <div>
+              <h1 className="font-semibold">Status:</h1>
+              <p className="flex flex-col">
+                {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+              </p>
+            </div>
+            {product.countInStock > 0 && (
+              <div className="rounded-sm bg-slate-200 hover:bg-slate-300">
+                <p className="flex flex-col">Qty</p>
+
+                <select value={qty} onChange={(e) => setQty(e.target.value)}>
+                  {[...Array(product.countInStock).keys()].map((x) => (
+                    <option key={x + 1} value={x + 1}>
+                      {x + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            <button
+              onClick={addToCartHandler}
+              className="bg-black text-white py-2 "
+              type="button"
+              disabled={product.countInStock === 0}
+            >
+              ADD TO CART
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
