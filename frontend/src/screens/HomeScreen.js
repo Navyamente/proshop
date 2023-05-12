@@ -18,7 +18,7 @@ const HomeScreen = () => {
   console.log("Products" + products);
   return (
     <div className="mx-auto px-10">
-      <h1 className="items-center justify-center  py-4 text-lg uppercase">
+      <h1 className="items-center justify-center px-8 py-10 text-xl font-semibold uppercase">
         Latest Products
       </h1>
       {loading ? (
@@ -27,7 +27,7 @@ const HomeScreen = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <div className="w-full">
-          <div className="grid grid-cols-4 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 3xl:grid-cols-5 gap-10">
             {products &&
               products.map((product, index) => (
                 <div
