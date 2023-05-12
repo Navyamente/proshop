@@ -15,10 +15,10 @@ const HomeScreen = () => {
     dispatch(listProducts());
   }, [dispatch]);
 
-  console.log(products);
+  console.log("Products" + products);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 space-x-8">
-      <h1 className="grid items-center justify-center  py-4 text-lg uppercase">
+    <div className="mx-auto px-10">
+      <h1 className="items-center justify-center  py-4 text-lg uppercase">
         Latest Products
       </h1>
       {loading ? (
@@ -26,18 +26,20 @@ const HomeScreen = () => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <div>
-          {products &&
-            products.map((product, index) => (
-              <div
-                className="grid lg:grid-col-1 w-full mx-auto items-center justify-center py-4"
-                key={index}
-              >
-                <div className="grid w-full sm:w-2/12 md:w-2/6 lg:w-2/3 ">
-                  <Product product={product} />
+        <div className="w-full">
+          <div className="grid grid-cols-4 gap-10">
+            {products &&
+              products.map((product, index) => (
+                <div
+                  className="w-5/6 mx-auto items-center justify-center shadow-lg rounded-md"
+                  key={index}
+                >
+                  <div className="h-full rounded-md">
+                    <Product product={product} />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       )}
     </div>
