@@ -23,14 +23,7 @@ const LoginScreen = () => {
   return (
     <FormContainer>
       <h1 className="uppercase font-semibold text-lg">Sign In</h1>
-      {error && (
-        <Message
-          className="bg-red-50 w-60 h-6 hover:bg-red-100"
-          variant="danger"
-        >
-          {error}
-        </Message>
-      )}
+      {error && <Message>{error}</Message>}
       {loading && <Loader />}
       <form onSubmit={submitHandler}>
         <div className="py-2 flex flex-col">
