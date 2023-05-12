@@ -19,7 +19,6 @@ const ProductScreen = () => {
     dispatch(listProductDetails(id));
   }, [dispatch, id]);
 
-  console.log(id);
   const addToCartHandler = () => {
     navigate(`/cart/${id}?qty=${qty}`);
   };
@@ -37,7 +36,9 @@ const ProductScreen = () => {
         <div className="flex flex-row space-x-2 space-y-4 ">
           <img src={product.image} alt={product.image} />
           <div className="divide-y-2 w-1/2">
-            <p className="space-x-2 space-y-3 font-semibold">{product.name}</p>
+            <h3 className="space-x-2 space-y-3 font-semibold">
+              {product.name}
+            </h3>
 
             <Rating
               value={product.rating}
