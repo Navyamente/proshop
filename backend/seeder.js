@@ -11,9 +11,7 @@ import path from "path";
 
 const __dirname = path.resolve();
 
-dotenv.config({
-  path: path.join(__dirname, "/backend/.env"),
-});
+dotenv.config();
 
 connectDB();
 
