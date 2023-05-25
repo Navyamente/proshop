@@ -1,37 +1,50 @@
 import React, { useState, useEffect } from "react";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { login } from "../actions/userActions";
+import { register } from "../actions/userActions";
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate("/");
-    }
-  });
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match");
+    } else {
+      dispatch(register(name, email, password));
+    }
   };
 
   return (
     <FormContainer>
-      <h1 className="uppercase font-semibold text-lg">Sign In</h1>
+      <h1 className="uppercase font-semibold text-lg">Sign Up</h1>
+      {message && <Message>{message}</Message>}
       {error && <Message>{error}</Message>}
       {loading && <Loader />}
       <form onSubmit={submitHandler}>
+        <div className="py-2 flex flex-col">
+          <label>Name </label>
+          <input
+            className="bg-gray-100 w-80 h-8 px-3"
+            type="name"
+            placeholder="Enter name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          ></input>
+        </div>
+
         <div className="py-2 flex flex-col">
           <label>Email Address</label>
           <input
@@ -54,18 +67,29 @@ const LoginScreen = () => {
           ></input>
         </div>
 
+        <div className="py-2 flex flex-col">
+          <label>Confirm Password</label>
+          <input
+            className="bg-gray-100 w-80 h-8 px-3"
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          ></input>
+        </div>
+
         <button
           className="uppercase text-xs bg-black text-white py-3 px-4"
           type="submit"
         >
-          Sign In
+          Register
         </button>
       </form>
       <div className="flex py-3">
         <div className="felx flex-col">
-          New Customer?{" "}
-          <Link to={redirect ? `/register?redirect=${redirect}` : "/register"}>
-            Register
+          Have an Account?{" "}
+          <Link to={redirect ? `/login?redirect=${redirect}` : "/login"}>
+            Login
           </Link>
         </div>
       </div>
@@ -73,4 +97,4 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;

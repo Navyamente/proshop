@@ -15,7 +15,6 @@ const HomeScreen = () => {
     dispatch(listProducts());
   }, [dispatch]);
 
-  console.log("Products" + products);
   return (
     <div className="mx-auto px-10">
       <h1 className="items-center justify-center px-8 py-10 text-xl font-semibold uppercase">

@@ -33,19 +33,15 @@ const CartScreen = () => {
   };
 
   const checkoutHandler = () => {
-    navigate("/login?redirect=shipping");
+    navigate("/shipping");
   };
-
   return (
     <div className="flex flex-col md:w-1/6 items-center justify-center px-12">
       <h1 className="uppercase font-semibold py-2">Shopping Cart</h1>
       {cartItems.length === 0 ? (
         <Message>
           Your Cart is empty{" "}
-          <Link
-            className="text-gray-700 bg-slate-100 hover:bg-slate-300 "
-            to="/"
-          >
+          <Link className="text-gray-700 bg-gray-100 hover:bg-gray-300 " to="/">
             Go Back
           </Link>
         </Message>
