@@ -10,15 +10,20 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
+  
+  
   if (user && (await user.matchPassword(password))) {
+    const token = generateToken(user._id);
+    res.cookie("token", token, { maxAge: 86400000, httpOnly: true });
+
     res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      token: token,
     });
-  } else {
+  } else {  
     res.status(401);
     throw new Error("Invalid email or password");
   }

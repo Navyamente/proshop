@@ -4,6 +4,6 @@ import { getTickets } from "../controllers/ticketController.js";
 
 const router = express.Router();
 
-router.route("/").get(getTickets);
+router.route("/").get(protect, getTickets);
 
 export default router;

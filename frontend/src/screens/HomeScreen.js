@@ -4,15 +4,24 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import { listProducts } from "../actions/productActions";
+import { useNavigate } from "react-router-dom";
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
+    if (userInfo) {
+      dispatch(listProducts());
+    } else {
+      navigate("/login");
+    }
   }, [dispatch]);
 
   return (

@@ -18,4 +18,5 @@ const getTickets = asyncHandler(async (req, res) => {
     ],
   });
 });
+
 export { getTickets, createTicket };
